@@ -1,0 +1,16 @@
+{
+    "name": "raza/hotel-searcher",
+    "description": "A small api to search for hotels",
+    "type": "project",
+    "require": {
+        "altorouter/altorouter": "^1.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Muhammad Raza",
+            "email": "razachohan@live.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
