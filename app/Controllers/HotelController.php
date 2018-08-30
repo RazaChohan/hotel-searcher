@@ -18,7 +18,6 @@ class HotelController extends BaseController
         $response = ['message' => null, 'status' => true];
         try {
             $response['message'] = "You have reached hotel search method";
-            throw new Exception('Exception raised');
         } catch (Exception $exception) {
             $response['status'] = false;
             parent::log($exception, __FILE__, __METHOD__);

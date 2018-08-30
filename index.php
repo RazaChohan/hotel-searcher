@@ -23,7 +23,7 @@ try {
     if($response['status']) {
         $responseToEcho = json_encode($response);
     } else {
-        $responseToEcho = returnFriendlyErrorMessage();
+        $responseToEcho = returnFriendlyErrorMessage($exception);
     }
 
     echo $responseToEcho;
@@ -36,5 +36,5 @@ try {
         "\t[" . $_SERVER['REQUEST_URI'] . "]" .
         "\n\n\n", 3, "errors.log");
 
-    echo returnFriendlyErrorMessage();
+    echo returnFriendlyErrorMessage($exception);
 }

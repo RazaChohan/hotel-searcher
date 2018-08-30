@@ -81,7 +81,7 @@ class Router
         }
         //api layer logic
         else {
-            throw new Exception("404 not found");
+            throw new Exception("Sorry, request could not be found.", 404);
         }
     }
 

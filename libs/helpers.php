@@ -8,9 +8,16 @@
  *
  * @return string
  */
-function returnFriendlyErrorMessage()
+function returnFriendlyErrorMessage(Exception $exception)
 {
-    http_response_code(500);
-    $response = ['message' => 'Oh no! Something bad happened. Please come back later when we fixed that problem. Thanks'];
+    $exceptionCode = $exception->getCode();
+    $responseMessage = "Oh no! Something bad happened. Please come back later when we fixed that problem. Thanks";
+    $responseCode = 500;
+    if($exceptionCode == 404) {
+        $responseCode = 404;
+        $responseMessage = $exception->getMessage();
+    }
+    http_response_code($responseCode);
+    $response = ['message' => $responseMessage];
     return json_encode($response);
 }
