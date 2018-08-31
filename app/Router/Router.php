@@ -4,6 +4,8 @@ namespace App\Router;
 
 use AltoRouter;
 use Exception;
+use App\Request\Request;
+
 /**
  * Router Class
  *
@@ -68,6 +70,11 @@ class Router
         $matchedRoute = $this->_altoRouter->match();
         //Check is route is matched with registered routes
         if($matchedRoute) {
+            //Populate request object
+            $request = new Request();
+            $request->populate();
+            $request->appendQueryParams($matchedRoute['params']);
+
             $methodName = $this->_getMethodNameFromRouteName($matchedRoute['name']);
 
             //Check if controller and action method exists
@@ -75,9 +82,10 @@ class Router
             $this->_checkControllerAndActionMethod($controllerFileName, $methodName);
 
             $controllerFullName = self::CONTROLLERS_NAMESPACE . '\\' . $this->_getControllerFulleName($controllerFileName);
+
             //Instantiate Controller
             $controllerObj = new $controllerFullName();
-            return $controllerObj->{$methodName}();
+            return $controllerObj->{$methodName}($request);
         }
         //api layer logic
         else {

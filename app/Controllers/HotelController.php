@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+use App\Request\Request;
 use Exception;
 
 /**
@@ -13,7 +14,7 @@ class HotelController extends BaseController
     {
 
     }
-    public function search() : array
+    public function search(Request $request) : array
     {
         $response = ['message' => null, 'status' => true];
         try {
