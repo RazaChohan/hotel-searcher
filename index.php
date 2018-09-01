@@ -25,16 +25,10 @@ try {
     } else {
         $responseToEcho = returnFriendlyErrorMessage($exception);
     }
-
     echo $responseToEcho;
-
 } catch(Exception $exception) {
-    //Log error in file
-    error_log(date("[Y-m-d H:i:s]").
-        "\t[" .$exception->getMessage() . "]" .
-        "\t[" . $exception->getTraceAsString() . "]" .
-        "\t[" . $_SERVER['REQUEST_URI'] . "]" .
-        "\n\n\n", 3, "errors.log");
-
+    //log error in error.log file
+    logError($exception);
+    //Return friendly error message
     echo returnFriendlyErrorMessage($exception);
 }

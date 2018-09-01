@@ -77,7 +77,8 @@ class Request
 
         //Set full Url
         if( isset($_SERVER['REQUEST_URI']) ) {
-            $fullRequestUrl = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            $fullRequestUrl = (isset($_SERVER['HTTPS']) ? "https" : "http") .
+                                "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
             $this->setFullUrl($fullRequestUrl);
         }
         // Set request headers
@@ -230,7 +231,8 @@ class Request
         $headers = [];
         foreach ($_SERVER as $name => $value) {
             //Remove HTTP from header param name
-            $name = strtolower(substr($name, 0, 5) === 'HTTP_' ? substr($name, 5) : $name);
+            $name = strtolower(substr($name, 0, 5) === 'HTTP_'
+                                            ? substr($name, 5) : $name);
             $headers[ str_replace(' ', '_', $name) ] = $value;
         }
         return $headers;

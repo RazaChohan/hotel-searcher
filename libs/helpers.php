@@ -1,4 +1,6 @@
 <?php
+use Libs\ResponseCode;
+
 /***
  * Helper methods that can be used across the application
  */
@@ -13,13 +15,13 @@ function returnFriendlyErrorMessage(Exception $exception)
 {
     $exceptionCode = $exception->getCode();
     $responseMessage = "Oh no! Something bad happened. Please come back later when we fixed that problem. Thanks";
-    $responseCode = 500;
-    if($exceptionCode == 404) {
-        $responseCode = 404;
+    $responseCode = ResponseCode::HTTP_INTERNAL_SERVER_ERROR;
+    if($exceptionCode == ResponseCode::HTTP_NOT_FOUND) {
+        $responseCode = ResponseCode::HTTP_NOT_FOUND;
         $responseMessage = $exception->getMessage();
     }
     http_response_code($responseCode);
-    $response = ['message' => $responseMessage];
+    $response = ['message' => $responseMessage, 'status' => false ];
     return json_encode($response);
 }
 
@@ -38,4 +40,19 @@ function isValidateJsonString(string $jsonString) : bool
         $isValidJson = (json_last_error() == JSON_ERROR_NONE);
     }
     return $isValidJson;
+}
+
+/***
+ * Log errors
+ *
+ * @param Exception $exception
+ */
+function logError(Exception $exception)
+{
+    //Log error in file
+    error_log(date("[Y-m-d H:i:s]").
+        "\t[" .$exception->getMessage() . "]" .
+        "\t[" . $exception->getTraceAsString() . "]" .
+        "\t[" . $_SERVER['REQUEST_URI'] . "]" .
+        "\n\n\n", 3, "errors.log");
 }

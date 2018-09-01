@@ -5,7 +5,7 @@ namespace App\Router;
 use AltoRouter;
 use Exception;
 use App\Request\Request;
-
+use Libs\ResponseCode;
 /**
  * Router Class
  *
@@ -81,7 +81,8 @@ class Router
             $controllerFileName = $matchedRoute['target'];
             $this->_checkControllerAndActionMethod($controllerFileName, $methodName);
 
-            $controllerFullName = self::CONTROLLERS_NAMESPACE . '\\' . $this->_getControllerFulleName($controllerFileName);
+            $controllerFullName = self::CONTROLLERS_NAMESPACE . '\\' .
+                                  $this->_getControllerFullName($controllerFileName);
 
             //Instantiate Controller
             $controllerObj = new $controllerFullName();
@@ -89,7 +90,7 @@ class Router
         }
         //api layer logic
         else {
-            throw new Exception("Sorry, request could not be found.", 404);
+            throw new Exception("Sorry, request could not be found.", ResponseCode::HTTP_NOT_FOUND);
         }
     }
 
@@ -116,7 +117,7 @@ class Router
      */
     private function _checkControllerAndActionMethod(string $controllerName, string $methodName)
     {
-        $controllerFullName = $this->_getControllerFulleName($controllerName);
+        $controllerFullName = $this->_getControllerFullName($controllerName);
         $controllerFilePath = __DIR__ . '/../Controllers/' . $controllerFullName . '.php';
         //Test if the controller file exists - otherwise return exception
         if (file_exists($controllerFilePath)) {
@@ -135,7 +136,7 @@ class Router
      * @param $controllerName
      * @return string
      */
-    private function _getControllerFulleName(string $controllerName) : string
+    private function _getControllerFullName(string $controllerName) : string
     {
         return ucfirst($controllerName) . 'Controller';
     }
