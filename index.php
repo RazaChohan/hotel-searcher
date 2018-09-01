@@ -10,8 +10,12 @@
 // Require vendor autoloader
 require_once __DIR__ . '/vendor/autoload.php';
 use App\Router\Router;
+use Libs\Config;
 
 try {
+    // Load environment once
+    Config::load( 'env.php' );
+
     //Creating router object and passing request to router
     $routerObject = new Router();
 
