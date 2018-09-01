@@ -6,6 +6,8 @@ use AltoRouter;
 use Exception;
 use App\Request\Request;
 use Libs\ResponseCode;
+use App\Middlewares\MiddlewareServiceProvider;
+use App\Middlewares\MiddlewareType;
 /**
  * Router Class
  *
@@ -16,6 +18,10 @@ class Router
      * Controller namespace
      */
     CONST CONTROLLERS_NAMESPACE = "App\Controllers";
+    /***
+     * Controllers folder
+     */
+    const CONTROLLERS_FOLDER = 'app/Controllers/';
     /***
      * Altorouter object
      *
@@ -52,7 +58,8 @@ class Router
                 $controller = $controllerAndMethod[0];
                 $method = $controllerAndMethod[1];
                 //Map routes on alto router
-                if (!empty($controller) && !empty($method) && isset($route['path']) && isset($route['method'])) {
+                if (!empty($controller) && !empty($method) && isset($route['path'])
+                    && isset($route['method'])) {
                     $this->_altoRouter->map($route['method'], $route['path'], $controller, $key);
                 }
             } else {
@@ -75,6 +82,10 @@ class Router
             $request->populate();
             $request->appendQueryParams($matchedRoute['params']);
 
+            //Apply pre middlewares
+            $this->_callMiddlewares($request, $matchedRoute['name'],
+                                    $this->_definedRoutes, MiddlewareType::PRE);
+
             $methodName = $this->_getMethodNameFromRouteName($matchedRoute['name']);
 
             //Check if controller and action method exists
@@ -90,7 +101,8 @@ class Router
         }
         //api layer logic
         else {
-            throw new Exception("Sorry, request could not be found.", ResponseCode::HTTP_NOT_FOUND);
+            throw new Exception("Sorry, request could not be found.",
+                            ResponseCode::HTTP_NOT_FOUND);
         }
     }
 
@@ -118,7 +130,7 @@ class Router
     private function _checkControllerAndActionMethod(string $controllerName, string $methodName)
     {
         $controllerFullName = $this->_getControllerFullName($controllerName);
-        $controllerFilePath = __DIR__ . '/../Controllers/' . $controllerFullName . '.php';
+        $controllerFilePath = self::CONTROLLERS_FOLDER . $controllerFullName . '.php';
         //Test if the controller file exists - otherwise return exception
         if (file_exists($controllerFilePath)) {
             //Check if method exists in controller
@@ -139,5 +151,23 @@ class Router
     private function _getControllerFullName(string $controllerName) : string
     {
         return ucfirst($controllerName) . 'Controller';
+    }
+    /***
+     * Call middlewares
+     *
+     * @param $request
+     * @param $routeKey
+     * @param $routes
+     * @param $middlewareType
+     * @param $responseBody
+     */
+    private function _callMiddlewares(&$request, $routeKey, $routes, $middlewareType, &$responseBody = null)
+    {
+        if( isset($routes[$routeKey]) && isset($routes[$routeKey]['middlewares'][$middlewareType]) &&
+            !empty($routes[$routeKey]['middlewares'][$middlewareType])) {
+            $middleServiceProvider = new MiddlewareServiceProvider($routes[$routeKey]['middlewares'][$middlewareType],
+                                                                   $request, $responseBody);
+            $middleServiceProvider->handle();
+        }
     }
 }

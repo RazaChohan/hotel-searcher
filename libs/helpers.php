@@ -16,8 +16,8 @@ function returnFriendlyErrorMessage(Exception $exception)
     $exceptionCode = $exception->getCode();
     $responseMessage = "Oh no! Something bad happened. Please come back later when we fixed that problem. Thanks";
     $responseCode = ResponseCode::HTTP_INTERNAL_SERVER_ERROR;
-    if($exceptionCode == ResponseCode::HTTP_NOT_FOUND) {
-        $responseCode = ResponseCode::HTTP_NOT_FOUND;
+    if($exceptionCode != ResponseCode::HTTP_INTERNAL_SERVER_ERROR) {
+        $responseCode = $exceptionCode;
         $responseMessage = $exception->getMessage();
     }
     http_response_code($responseCode);
