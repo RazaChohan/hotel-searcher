@@ -65,7 +65,7 @@ function logError(Exception $exception)
  * @param $sortOrder
  * @return mixed
  */
-function sortArrayByKey($inputArray, $sortBy, $sortOrder = 'asc') : array
+function sortArrayByKey($inputArray, $sortBy, $sortOrder = 'asc')
 {
     $sortKeyArray = [];
     foreach ($inputArray as $key => $row) {
