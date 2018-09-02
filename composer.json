@@ -23,5 +23,8 @@
             "libs/helpers.php"
         ]
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "require-dev": {
+        "codeclimate/php-test-reporter": "^0.3.0@dev"
+    }
 }
