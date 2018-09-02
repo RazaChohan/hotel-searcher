@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false">
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <!--Include Files and folders for code coverage-->
+            <file>./libs/Config.php</file>
+            <file>./libs/CurlHelper.php</file>
+            <directory suffix=".php">./app/Controllers</directory>
+            <directory suffix=".php">./app/Models</directory>
+            <directory suffix=".php">./app/Utilities</directory>
+            <exclude>
+                <file>./app/Controllers/BaseController.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>
