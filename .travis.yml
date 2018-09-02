@@ -1,7 +1,7 @@
 langugage: "php"
 
 php:
-  - 7.2.7
+  - 7.1
 
 addons:
   code_climate:
