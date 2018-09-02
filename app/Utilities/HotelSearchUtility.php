@@ -176,7 +176,7 @@ Class HotelSearchUtility
      *
      * @return boolean
      */
-    private function _matchHotelName(string $filterValue, string $recordValue)
+    private function _matchHotelName($filterValue, $recordValue)
     {
         return preg_match("/$filterValue/i" , $recordValue);
     }
