@@ -9,9 +9,9 @@ addons:
       secure: "01caa7d9ac85053fd0ef21d799844cb16df96a0b10ccae5bf66a779a222de0f0"
 
 before_script:
-  "composer require phpunit/phpunit --dev"
-  "composer require codeclimate/php-test-reporter --dev"
+  - "composer require phpunit/phpunit --dev"
+  - "composer require codeclimate/php-test-reporter --dev"
 
 script:
-  "./vendor/phpunit/phpunit/phpunit tests/ --coverage-text --coverage-clover build/logs/clover.xml"
+  - "./vendor/phpunit/phpunit/phpunit tests/ --coverage-text --coverage-clover build/logs/clover.xml"
 
