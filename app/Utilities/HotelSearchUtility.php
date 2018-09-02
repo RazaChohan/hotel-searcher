@@ -221,7 +221,7 @@ Class HotelSearchUtility
             if( $compareWithDateRange && isset($filters['startDate']) && !empty($filters['startDate'])
                                       && isset($filters['endDate']) && !empty($filters['endDate']) )  {
 
-                if( $filters['startDate'] >= $dateItem->from && $dateItem->to >= $filters['endDate'] ) {
+                if( $filters['startDate'] >= $dateItem->from && $dateItem->to <= $filters['endDate'] ) {
                     $matched = true;
                     break;
                 }

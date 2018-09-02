@@ -14,11 +14,6 @@ use App\Utilities\HotelSearchUtility;
  */
 class HotelController extends BaseController
 {
-    public function __construct()
-    {
-
-    }
-
     /***
      * Search hotels
      *
