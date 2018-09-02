@@ -30,7 +30,7 @@ function returnFriendlyErrorMessage(Exception $exception)
  * @param string $jsonString
  * @return bool
  */
-function isValidateJsonString(string $jsonString) : bool
+function isValidateJsonString(string $jsonString)
 {
     $isValidJson = true;
     if (is_object($jsonString)) {
