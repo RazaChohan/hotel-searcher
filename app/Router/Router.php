@@ -55,11 +55,9 @@ class Router
             //Get controller and action method names
             $controllerAndMethod = explode('.', $key);
             if(count($controllerAndMethod) == 2) {
-                $controller = $controllerAndMethod[0];
-                $method = $controllerAndMethod[1];
+                $controller = current($controllerAndMethod);
                 //Map routes on alto router
-                if (!empty($controller) && !empty($method) && isset($route['path'])
-                    && isset($route['method'])) {
+                if (isset($route['path']) && isset($route['method'])) {
                     $this->_altoRouter->map($route['method'], $route['path'], $controller, $key);
                 }
             } else {
