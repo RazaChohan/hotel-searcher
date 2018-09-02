@@ -176,7 +176,7 @@ Class HotelSearchUtility
      *
      * @return boolean
      */
-    private function _matchHotelName(string $filterValue, string $recordValue) : bool
+    private function _matchHotelName(string $filterValue, string $recordValue)
     {
         return preg_match("/$filterValue/i" , $recordValue);
     }
@@ -188,7 +188,7 @@ Class HotelSearchUtility
      *
      * @return bool
      */
-    private function _matchPriceRange($filters, $recordPrice) : bool
+    private function _matchPriceRange($filters, $recordPrice)
     {
         $matched = true;
         //Check for start price
@@ -213,7 +213,7 @@ Class HotelSearchUtility
      * @param $recordAvailability
      * @return bool
      */
-    private function _matchDateRange($filters, $recordAvailability) : bool
+    private function _matchDateRange($filters, $recordAvailability)
     {
         $matched = false;
         $compareWithDateRange = (isset($filters['onlyDate']) && !empty($filters['onlyDate'])) ? false : true;

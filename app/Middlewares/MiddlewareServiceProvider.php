@@ -86,7 +86,7 @@ class MiddlewareServiceProvider implements IMiddleware
      * @param $middlewareName
      * @return boolean
      */
-    private function _checkIfMiddlewareExists($middlewareName) : bool
+    private function _checkIfMiddlewareExists($middlewareName)
     {
         $file =  self::MIDDLEWARE_FOLDER . $middlewareName . '.php';
         $middlewareExists = false;
@@ -104,7 +104,7 @@ class MiddlewareServiceProvider implements IMiddleware
      * @param $string
      * @return mixed
      */
-    private function _snakeCaseToCamelCase($string) : string
+    private function _snakeCaseToCamelCase($string)
     {
         if(!empty($string)) {
             $string = str_replace(' ', '',

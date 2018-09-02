@@ -20,7 +20,7 @@ class HotelController extends BaseController
      * @param Request $request
      * @return array
      */
-    public function search(Request $request) : array
+    public function search(Request $request)
     {
         $response = ['message' => null, 'status' => true];
         try {

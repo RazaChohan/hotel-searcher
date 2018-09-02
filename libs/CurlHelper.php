@@ -1,7 +1,6 @@
 <?php
 namespace Libs;
 
-use Libs\ResponseCode;
 /***
  * Curl helper for API calls
  *

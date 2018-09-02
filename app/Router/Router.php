@@ -72,7 +72,7 @@ class Router
      * Match incoming request with registered routes
      *
      */
-    public function matchRequest() : array
+    public function matchRequest()
     {
         $matchedRoute = $this->_altoRouter->match();
         //Check is route is matched with registered routes
@@ -113,7 +113,7 @@ class Router
      *
      * @return string $methodName
      */
-    private function _getMethodNameFromRouteName(string $routeName) : string
+    private function _getMethodNameFromRouteName(string $routeName)
     {
         $explodedRouteName = explode('.', $routeName);
         return end($explodedRouteName);
@@ -148,7 +148,7 @@ class Router
      * @param $controllerName
      * @return string
      */
-    private function _getControllerFullName(string $controllerName) : string
+    private function _getControllerFullName(string $controllerName)
     {
         return ucfirst($controllerName) . 'Controller';
     }
