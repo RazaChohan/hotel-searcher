@@ -159,9 +159,8 @@ class Router
      * @param $routeKey
      * @param $routes
      * @param $middlewareType
-     * @param $responseBody
      */
-    private function _callMiddlewares(&$request, $routeKey, $routes, $middlewareType, &$responseBody = null)
+    private function _callMiddlewares(&$request, $routeKey, $routes, $middlewareType)
     {
         if( isset($routes[$routeKey]) && isset($routes[$routeKey]['middlewares'][$middlewareType]) &&
             !empty($routes[$routeKey]['middlewares'][$middlewareType])) {
