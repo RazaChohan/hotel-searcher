@@ -151,39 +151,6 @@ class HotelControllerTest extends BaseTestCase
         $this->assertTrue($isSuccessful);
     }
     /***
-     * Test auth token required
-     */
-    public function testAuthTokenRequired()
-    {
-        $url = $this->applicationUrl . self::HOTEL_SEARCH . '?destination=dubai';
-
-        $response = $this->curlHelper->getCall($url,true);
-        $this->assertTrue($response['httpCode'] === ResponseCode::HTTP_UNAUTHORIZED);
-    }
-
-    /***
-     * Test invalid auth token
-     *
-     */
-    public function testInvalidAuthToken()
-    {
-        $url = $this->applicationUrl . self::HOTEL_SEARCH . '?auth_token=123';
-        $response = $this->curlHelper->getCall($url,true);
-        $this->assertTrue($response['httpCode'] === ResponseCode::HTTP_UNAUTHORIZED);
-    }
-
-    /***
-     * Test request not found
-     *
-     */
-    public function testNotFound()
-    {
-        $url = $this->applicationUrl . self::HOTEL_SEARCH . '/not-found';
-        $response = $this->curlHelper->getCall($url,true);
-        $this->assertTrue($response['httpCode'] === ResponseCode::HTTP_NOT_FOUND);
-    }
-
-    /***
      * Get request object for hotel controller
      *
      * @param $destination
