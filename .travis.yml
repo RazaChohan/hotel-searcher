@@ -1,13 +1,13 @@
 langugage: "php"
 php:
   - '7.1.0'
-addons:
-  code_climate:
-    repo_token:
-      secure: "01caa7d9ac85053fd0ef21d799844cb16df96a0b10ccae5bf66a779a222de0f0"
 before_script:
   - "composer require phpunit/phpunit --dev"
   - "composer require codeclimate/php-test-reporter --dev"
 script:
   - "./vendor/phpunit/phpunit/phpunit tests/ --coverage-text --coverage-clover build/logs/clover.xml"
+after_script:
+  - CODECLIMATE_REPO_TOKEN="01caa7d9ac85053fd0ef21d799844cb16df96a0b10ccae5bf66a779a222de0f0" vendor/bin/test-reporter --stdout > codeclimate.json
+  - "curl -X POST -d @codeclimate.json -H 'Content-Type: application/json' -H 'User-Agent: Code Climate (PHP Test Reporter v0.1.1)' https://codeclimate.com/test_reports"
+
 
