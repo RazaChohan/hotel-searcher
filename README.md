@@ -11,6 +11,7 @@ Hotel searcher allows you to search hotels from online resources. User can filte
 * [Setup](#setup)
 * [Usage](#usage)
 * [Run Tests](#run-tests)
+* [Search](#search)
 
 ## Configuration
 
