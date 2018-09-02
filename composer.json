@@ -3,7 +3,8 @@
     "description": "A small api to search for hotels",
     "type": "project",
     "require": {
-        "altorouter/altorouter": "^1.2"
+        "altorouter/altorouter": "^1.2",
+        "phpunit/phpunit": "^7.3"
     },
     "license": "MIT",
     "authors": [
@@ -15,7 +16,8 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "Libs\\": "libs/"
+            "Libs\\": "libs/",
+            "Tests\\": "tests/"
         },
         "files": [
             "libs/helpers.php"

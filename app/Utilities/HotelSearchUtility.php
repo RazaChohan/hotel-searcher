@@ -123,7 +123,7 @@ Class HotelSearchUtility
      */
     public function searchHotelsUsingFilters()
     {
-        $city = strtolower( $this->_filters['destination'] );
+        $city = isset($this->_filters['destination']) ? strtolower( $this->_filters['destination'] ) : null;
 
         if(!empty($city)) {
             if( isset($this->_data[ $city ]) ) {
@@ -150,7 +150,7 @@ Class HotelSearchUtility
     public function matchCriteria($item)
     {
         $matched = true;
-        $hotelName = $this->_filters['name'];
+        $hotelName = isset($this->_filters['name']) ? $this->_filters['name'] : null;
         //Filter on basis of hotel name
         if(isset($this->_filters) && !empty($hotelName)) {
             $matched = $this->_matchHotelName($hotelName, $item->name);
