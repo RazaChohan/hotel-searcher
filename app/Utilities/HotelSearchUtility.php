@@ -1,6 +1,7 @@
 <?php
 namespace App\Utilities;
 
+use DateTime;
 /***
  * Hotel search utility
  *
@@ -82,10 +83,10 @@ Class HotelSearchUtility
                 $startDate = $endDate;
                 $endDate = $temp;
             }
-            $preparedDateRangeFilter['startDate'] = $startDate;
-            $preparedDateRangeFilter['endDate'] = $endDate;
+            $preparedDateRangeFilter['startDate'] = new DateTime($startDate);
+            $preparedDateRangeFilter['endDate'] = new DateTime($endDate);
         } else {
-            $preparedDateRangeFilter['onlyDate'] = date("d-m-Y", strtotime($dateRange[0]));
+            $preparedDateRangeFilter['onlyDate'] = new DateTime(date("d-m-Y", strtotime($dateRange[0])));
         }
         return $preparedDateRangeFilter;
     }
@@ -218,16 +219,20 @@ Class HotelSearchUtility
         $compareWithDateRange = (isset($filters['onlyDate']) && !empty($filters['onlyDate'])) ? false : true;
         foreach( $recordAvailability as $dateItem)
         {
+            $recordAvailabilityTo = new DateTime($dateItem->to);
+            $recordAvailabilityFrom = new DateTime($dateItem->from);
             if( $compareWithDateRange && isset($filters['startDate']) && !empty($filters['startDate'])
                                       && isset($filters['endDate']) && !empty($filters['endDate']) )  {
 
-                if( $filters['startDate'] >= $dateItem->from && $dateItem->to <= $filters['endDate'] ) {
+                if( $filters['startDate'] <= $recordAvailabilityTo && $filters['endDate'] >= $recordAvailabilityFrom ) {
                     $matched = true;
                     break;
                 }
             } else if(!$compareWithDateRange && isset($filters['onlyDate']) && !empty($filters['onlyDate'])) {
 
-                if( $filters['onlyDate'] == $dateItem->from || $dateItem->to == $filters['onlyDate'] ) {
+                if( $filters['onlyDate'] <= $recordAvailabilityTo
+                    && $filters['onlyDate'] >= $recordAvailabilityFrom) {
+                    
                     $matched = true;
                     break;
                 }
