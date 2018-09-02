@@ -157,12 +157,12 @@ Class HotelSearchUtility
             $matched = $this->_matchHotelName($hotelName, $item->name);
         }
         //Filter on the basis of price range
-        if( $matched && isset($this->_filters['priceRange']) && !empty($this->_filters['priceRange'])) {
+        if( $matched && isset($this->_filters['priceRange']) ) {
             $matched = $this->_matchPriceRange($this->_filters, $item->price);
         }
 
         //Filter on the basis of date range
-        if( $matched && isset($this->_filters['dateRange']) && !empty($this->_filters['dateRange'])) {
+        if( $matched && isset($this->_filters['dateRange']) ) {
             $matched = $this->_matchDateRange($this->_filters, $item->availability);
         }
         return $matched;
@@ -192,15 +192,15 @@ Class HotelSearchUtility
     {
         $matched = true;
         //Check for start price
-        if( isset($filters['startPrice']) && !empty($filters['startPrice']) ) {
+        if( isset($filters['startPrice']) ) {
             $matched = ($filters['startPrice'] <= $recordPrice) ? true : false;
         }
         //Check for end price
-        if ( isset($filters['endPrice']) && !empty($filters['endPrice']) && $matched ) {
+        if ( isset($filters['endPrice']) && $matched ) {
             $matched = ($filters['endPrice'] >= $recordPrice) ? true : false;
         }
         //Price exact match
-        if( isset($filters['onlyPrice']) && !empty($filters['onlyPrice'])) {
+        if( isset($filters['onlyPrice'])) {
             $matched = ($filters['onlyPrice'] == $recordPrice) ? true : false;
         }
         return $matched;
@@ -216,19 +216,19 @@ Class HotelSearchUtility
     private function _matchDateRange($filters, $recordAvailability)
     {
         $matched = false;
-        $compareWithDateRange = (isset($filters['onlyDate']) && !empty($filters['onlyDate'])) ? false : true;
+        $compareWithDateRange = (isset($filters['onlyDate']) ) ? false : true;
         foreach( $recordAvailability as $dateItem)
         {
             $recordAvailabilityTo = new DateTime($dateItem->to);
             $recordAvailabilityFrom = new DateTime($dateItem->from);
-            if( $compareWithDateRange && isset($filters['startDate']) && !empty($filters['startDate'])
-                                      && isset($filters['endDate']) && !empty($filters['endDate']) )  {
+            if( $compareWithDateRange && isset($filters['startDate'])
+                                      && isset($filters['endDate']) )  {
 
                 if( $filters['startDate'] <= $recordAvailabilityTo && $filters['endDate'] >= $recordAvailabilityFrom ) {
                     $matched = true;
                     break;
                 }
-            } else if(!$compareWithDateRange && isset($filters['onlyDate']) && !empty($filters['onlyDate'])) {
+            } else if(!$compareWithDateRange && isset($filters['onlyDate']) ) {
 
                 if( $filters['onlyDate'] <= $recordAvailabilityTo
                     && $filters['onlyDate'] >= $recordAvailabilityFrom) {
