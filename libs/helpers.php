@@ -56,3 +56,22 @@ function logError(Exception $exception)
         "\t[" . $_SERVER['REQUEST_URI'] . "]" .
         "\n\n\n", 3, "errors.log");
 }
+
+/***
+ * Sort array by key
+ *
+ * @param $inputArray
+ * @param $sortBy
+ * @param $sortOrder
+ * @return mixed
+ */
+function sortArrayByKey($inputArray, $sortBy, $sortOrder = 'asc') : array
+{
+    $sortKeyArray = [];
+    foreach ($inputArray as $key => $row) {
+        $sortKeyArray[ $key ] = $row->$sortBy;
+    }
+    $sortOrder = ($sortOrder == 'asc') ? SORT_ASC : SORT_DESC;
+    array_multisort($sortKeyArray, $sortOrder, $inputArray);
+    return $inputArray;
+}

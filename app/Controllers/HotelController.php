@@ -7,6 +7,7 @@ use Libs\CurlHelper;
 use Libs\Config;
 use Libs\ResponseCode;
 use App\Models\Hotel;
+use App\Utilities\HotelSearchUtility;
 /**
  * Hotel Controller
  *
@@ -29,25 +30,55 @@ class HotelController extends BaseController
         $response = ['message' => null, 'status' => true];
         try {
             $curlHelperObject = new CurlHelper();
-            $destination = $request->getQueryParams()->get('destination');
-            $hotelName   = $request->getQueryParams()->get('name');
-            $priceRange  = $request->getQueryParams()->get('price_range');
-            $dateRange   = $request->getQueryParams()->get('date_range');
-            $sortBy      = $request->getQueryParams()->get('sort_by');
-            $sortOrder   = $request->getQueryParams()->get('sort_order', 'asc');
 
             //Call api to get data
             $hotelAPIUrl = Config::get('HOTEL_API');
             $apiResponse = $curlHelperObject->getCall($hotelAPIUrl);
+            //Populate hotel model from api data
             if($apiResponse['httpCode'] == ResponseCode::HTTP_OK) {
                 $hotelModel = new Hotel();
-                $response['data'] = $hotelModel->setHotels($apiResponse['responseBody']);
+                $hotelModelCollection = $hotelModel->setHotels($apiResponse['responseBody']);
+                $response['data'] = $this->_filterHotelData($request, $hotelModelCollection);
+                $noOfHotelsFound = count($response['data']);
+                $response['message'] = "$noOfHotelsFound hotels found as per your search criteria";
             }
-            $response['message'] = "You have reached hotel search method";
         } catch (Exception $exception) {
             $response = returnFriendlyErrorMessage($exception);
             parent::log($exception, __FILE__, __METHOD__);
         }
         return $response;
+    }
+
+    /***
+     * Filter hotel data
+     *
+     * @param Request $request
+     * @param array $hotelData
+     *
+     * @return array
+     */
+    private function _filterHotelData(Request $request, $hotelData)
+    {
+        $destination = $request->getQueryParams()->get('destination');
+        $hotelName   = $request->getQueryParams()->get('name');
+        $priceRange  = $request->getQueryParams()->get('price_range');
+        $dateRange   = $request->getQueryParams()->get('date_range');
+
+        $sortBy      = $request->getQueryParams()->get('sort_by');
+        $sortOrder   = $request->getQueryParams()->get('sort_order', 'asc');
+        //Create hotel search utility
+        $filters = [
+            'destination'  => $destination,
+            'name'         => $hotelName,
+            'priceRange'   => $priceRange,
+            'dateRange'    => $dateRange,
+        ];
+        $hotelSearchUtility = new HotelSearchUtility($filters, $hotelData);
+        $filteredHotelsData = $hotelSearchUtility->searchHotelsUsingFilters();
+        //Sort filtered array
+        if(!empty($sortBy)) {
+            $filteredHotelsData = sortArrayByKey($filteredHotelsData, $sortBy, $sortOrder);
+        }
+        return $filteredHotelsData;
     }
 }
